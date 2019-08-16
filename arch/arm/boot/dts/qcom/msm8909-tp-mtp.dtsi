@@ -1,0 +1,130 @@
+/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+ *
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*
+ * As a general rule, only version-specific property overrides should be placed
+ * inside this file. However, device definitions should be placed inside the
+ * yep_product_ql1001_flatform.dtsi file.
+ */
+
+&soc {
+
+	i2c@78b9000 { /* BLSP1 QUP5 */
+		silead_gsl@40 {
+			compatible = "silead,gsl-tp";
+			gsl,name = "gsl_ctp";
+			reg = <0x40>;
+			interrupt-parent = <&msm_gpio>;
+			interrupts = <13 0x2001>;
+			vdd-supply = <&pm8916_l17>;
+			vcc_i2c-supply = <&pm8916_l6>;
+
+			pinctrl-names = "pmx_ts_active","pmx_ts_suspend";
+			pinctrl-0 = <&ts_int_active &ts_reset_active>;
+			pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
+
+			gsl,display-coords = <0 0 1280 800>;
+			gsl,panel-coords = <0 0 1280 800>;
+			gsl,hard-reset-delay-ms = <5>;
+			gsl,post-hard-reset-delay-ms = <5>;
+			gsl,reset-gpio = <&msm_gpio 12 0x00>;
+			gsl,irq-gpio   = <&msm_gpio 13 0x2001>;
+			gsl,num-max-touches = <10>;
+			gsl,panel_tx_num = <24>;
+			gsl,panel_rx_num = <14>;
+			gsl,button-map = <139 172 158>;
+			gsl,i2c-pull-up;
+		};
+
+		Goodix-TS@14 {
+			compatible = "goodix,Goodix-TS";
+			reg = <0x14>;
+			interrupt-parent = <&msm_gpio>;
+			interrupts = <13 0x2008>;
+			vdd-supply = <&pm8916_l17>;
+			vcc_i2c-supply = <&pm8916_l6>;
+
+			/*pinctrl-names = "pmx_ts_active","pmx_ts_suspend";
+			pinctrl-0 = <&ts_int_active &ts_reset_active>;
+			pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;*/
+
+			pinctrl-names = "eint_as_int","eint_output_low", "eint_output_high";
+			pinctrl-0 = <&eint_as_int>;
+			pinctrl-1 = <&eint_output_low>;
+			pinctrl-2 = <&eint_output_high>;
+
+			goodix,reset-gpio = <&msm_gpio 12 0x00>;
+			goodix,display-coords = <0 0 1280 800>;
+			goodix,panel-coords = <0 0 1280 800>;
+			goodix,irq-gpio = <&msm_gpio 13 0x00>;
+			goodix,button-map = <139 172 158>;
+			goodix,i2c-pull-up;
+			goodix,module-name = "mutto","mutto charger cfg","unknow","unknow","unknow","xingqihong","xingqihong charger cfg","unknow";
+
+			/*for dpt*/
+			goodix,cfg-data0 = [
+			4C 20 03 00 05 0A 3D 00 22 CE
+			46 0A 5A 37 0F 35 00 00 00 02
+			11 11 06 17 19 1B 14 95 35 FF
+			1C 1E C8 12 00 00 00 42 34 1C
+			00 00 00 00 00 00 00 3C 96 00
+			2B 13 23 8A C0 46 00 3C 01 04
+			8C 14 00 83 16 00 78 19 00 6E
+			1D 00 6E 20 00 68 00 00 00 00
+			00 00 00 00 00 00 00 00 00 00
+			00 00 00 00 00 00 0F 0F 28 00
+			3C 28 03 00 00 00 00 00 00 00
+			0A 00 1D 1C 1B 1A 19 18 17 16
+			15 14 13 12 11 10 0F 0E 0D 0C
+			0B 0A 09 08 07 06 05 04 03 02
+			01 00 2A 29 28 27 26 25 24 23
+			22 21 20 1F 1E 1D 1C 1B 19 18
+			17 16 15 14 13 12 11 10 0F 0E
+			0D 0C 0B 0A 09 08 07 06 05 04
+			03 02 01 00 12 01];
+
+			/*for TG*/
+			goodix,cfg-data2 = [
+			47 20 03 00 05 0A 3D 00 22 CE
+			41 0A 50 3C 0F 35 00 00 00 02
+			11 11 06 17 19 1B 14 95 35 FF
+			14 16 C8 12 00 00 00 42 34 1C
+			00 00 00 00 00 00 00 3C 96 00
+			2B 13 23 8A C0 66 00 3C 01 04
+			8D 14 00 85 16 00 7C 19 00 75
+			1D 00 70 20 00 70 00 00 00 00
+			00 00 00 00 00 00 00 00 00 00
+			00 00 00 00 00 00 0F 0F 28 00
+			3C 28 03 00 00 00 05 00 00 00
+			0F 00 1D 1C 1B 1A 19 18 17 16
+			15 14 13 12 11 10 0F 0E 0D 0C
+			0B 0A 09 08 07 06 05 04 03 02
+			01 00 2A 29 28 27 26 25 24 23
+			22 21 20 1F 1E 1D 1C 1B 19 18
+			17 16 15 14 13 12 11 10 0F 0E
+			0D 0C 0B 0A 09 08 07 06 05 04
+			03 02 01 00 EF 01];
+
+		};
+	};
+
+	gen-vkeys {
+		compatible = "qcom,gen-vkeys";
+		label = "FT5x36";
+		qcom,disp-maxx = <480>;
+		qcom,disp-maxy = <854>;
+		qcom,panel-maxx = <480>;
+		qcom,panel-maxy = <946>;
+		qcom,key-codes = <139 172 158>;
+		qcom,y-offset = <0>;
+	};
+};
+
